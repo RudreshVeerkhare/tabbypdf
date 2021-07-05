@@ -66,6 +66,7 @@ public class TableTextBlockToXmlWriter implements Writer<TableBox, String> {
                         Element cellContentElement = doc.createElement("content");
                         cellContentElement.appendChild(doc.createTextNode(textBlock.getText() + "  "));
                         cellElement.appendChild(cellContentElement);
+                        regionElement.appendChild(cellElement);
                     }
                 }
                 tableElement.appendChild(regionElement);
