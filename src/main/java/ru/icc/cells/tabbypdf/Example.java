@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Example {
-    public static String TEST_PDF_DIR = "/content/pdf/ ";
+    public static String TEST_PDF_DIR = "/content/pdf/";
     public static String SAVE_PDF_DIR = "/content/pdf/edit/";
 
     public static void main(String[] args) {
@@ -30,7 +30,7 @@ public class Example {
             SAVE_PDF_DIR = args[2];
         }
 
-        Debug.ENABLE_DEBUG = false;
+        Debug.ENABLE_DEBUG = true;
         File folder = new File(TEST_PDF_DIR);
         for (File file : folder.listFiles(File::isFile)) {
             if (file.getName().lastIndexOf(".pdf") == file.getName().length() - 4) {
