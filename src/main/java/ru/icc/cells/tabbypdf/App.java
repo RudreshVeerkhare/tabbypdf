@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.NoSuchElementException;
 
 /**
  * @author aaltaev
@@ -91,23 +92,25 @@ public class App {
         for (File file : folder.listFiles(File::isFile)) {
             if (file.getName().lastIndexOf(".pdf") == file.getName().length() - 4) {
                 List<Page> pages = new PdfDataExtractor.Factory().getPdfBoxTextExtractor(file).getPageContent();
+                try {
+                    for (int pageNumber = 0; pageNumber < pages.size(); pageNumber++) {
+                        Page page = pages.get(pageNumber);
+                        TextChunkProcessorConfiguration configuration = getDetectionConfiguration();
+                        List<TextBlock> textBlocks = new TextChunkProcessor(page, configuration).process();
 
-                for (int pageNumber = 0; pageNumber < pages.size(); pageNumber++) {
-                    Page page = pages.get(pageNumber);
-                    TextChunkProcessorConfiguration configuration = getDetectionConfiguration();
-                    List<TextBlock> textBlocks = new TextChunkProcessor(page, configuration).process();
-
-                    // write data to xml
-                    String fileName = file.getName();
-                    TableTextBlockToXmlWriter writer = new TableTextBlockToXmlWriter(fileName);
-                    try {
-                        FileWriter fileWriter = new FileWriter(
-                                xmlFolder + fileName.substring(0, fileName.lastIndexOf('.')) + "-blk-output.xml");
-                        fileWriter.write(writer.write(textBlocks));
-                        fileWriter.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        // write data to xml
+                        String fileName = file.getName();
+                        TableTextBlockToXmlWriter writer = new TableTextBlockToXmlWriter(fileName);
+                        try {
+                            FileWriter fileWriter = new FileWriter(
+                                    xmlFolder + fileName.substring(0, fileName.lastIndexOf('.')) + "-blk-output.xml");
+                            fileWriter.write(writer.write(textBlocks));
+                            fileWriter.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
+                } catch (NoSuchElementException e) {
                 }
             }
         }
