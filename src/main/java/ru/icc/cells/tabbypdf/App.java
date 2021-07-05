@@ -46,7 +46,7 @@ import java.util.stream.Stream;
  */
 public class App {
     @Option(name = "-f", usage = "Folder name")
-    private String folder;
+    private String inputFolder;
     @Option(name = "-xml", usage = "Resulting xmlFile file")
     private String xmlFolder;
 
@@ -59,7 +59,7 @@ public class App {
 
         try {
             parser.parseArgument(args);
-            checkArgThrowIfEmpty(folder);
+            checkArgThrowIfEmpty(inputFolder);
             checkArgThrowIfEmpty(xmlFolder);
 
             extractAndWrite();
@@ -87,7 +87,7 @@ public class App {
 
     public void extractAndWrite() {
 
-        File folder = new File(folder);
+        File folder = new File(inputFolder);
         for (File file : folder.listFiles(File::isFile)) {
             if (file.getName().lastIndexOf(".pdf") == file.getName().length() - 4) {
                 List<Page> pages = new PdfDataExtractor.Factory().getPdfBoxTextExtractor(file).getPageContent();
