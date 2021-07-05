@@ -11,6 +11,7 @@ import ru.icc.cells.tabbypdf.recognition.TableOptimizer;
 import ru.icc.cells.tabbypdf.writers.TableBoxToXmlWriter;
 import ru.icc.cells.tabbypdf.writers.TableToHtmlWriter;
 import ru.icc.cells.tabbypdf.writers.TableToXmlWriter;
+import ru.icc.cells.tabbypdf.writers.TableTextBlockToXmlWriter;
 
 import java.awt.Color;
 import java.io.File;
@@ -20,11 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Example {
-    public static final String TEST_PDF_DIR = "src/test/resources/pdf/";
-    public static final String SAVE_PDF_DIR = "src/test/resources/pdf/edit/";
+    public static String TEST_PDF_DIR = "src/test/resources/pdf/";
+    public static String SAVE_PDF_DIR = "src/test/resources/pdf/edit/";
 
     public static void main(String[] args) {
-        Debug.ENABLE_DEBUG = true;
+        if (args.length > 2){
+            TEST_PDF_DIR = args[1];
+            SAVE_PDF_DIR = args[2];
+        }
+
+        Debug.ENABLE_DEBUG = false;
         File folder = new File(TEST_PDF_DIR);
         for (File file : folder.listFiles(File::isFile)) {
             if (file.getName().lastIndexOf(".pdf") == file.getName().length() - 4) {
@@ -68,7 +74,7 @@ public class Example {
 
             drawTBoxes(tableBoxes);
 
-
+            writeTableTextBlocks(tableBoxes, file.getName());
             writeTableBoxes(tableBoxes, file.getName());
             writeTables(tables, file.getName());
         } catch (IOException e) {
@@ -99,6 +105,18 @@ public class Example {
                     Debug.drawRects(textLine.getTextBlocks());
                 }
             }
+        }
+    }
+
+    private static void writeTableTextBlocks(List<TableBox> tableBoxes, String fileName) {
+        TableBoxToXmlWriter writer = new TableTextBlockToXmlWriter(fileName);
+        try {
+            FileWriter fileWriter = new FileWriter(
+                SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-blk-output.xml");
+            fileWriter.write(writer.write(tableBoxes));
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
