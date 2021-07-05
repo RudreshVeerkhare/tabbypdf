@@ -43,13 +43,13 @@ public class TableTextBlockToXmlWriter implements Writer<TableBox, String> {
             Element tableElement = doc.createElement("table");
             tableElement.setAttribute("id", "dummy");
 
-            for (TableRegion tableRegion : tableBox.getTableRegions()) {
+            Element regionElement = doc.createElement("region");
+            regionElement.setAttribute("col-increment", "0");
+            regionElement.setAttribute("row-increment", "0");
+            regionElement.setAttribute("id", "1");
+            regionElement.setAttribute("page", "dummy");
 
-                Element regionElement = doc.createElement("region");
-                regionElement.setAttribute("col-increment", "0");
-                regionElement.setAttribute("row-increment", "0");
-                regionElement.setAttribute("id", "1");
-                regionElement.setAttribute("page", "dummy");
+            for (TableRegion tableRegion : tableBox.getTableRegions()) {
 
                 for (TextLine textLine : tableRegion.getTextLines()) {
                     for (TextBlock textBlock : textLine.getTextBlocks()) {
@@ -69,8 +69,8 @@ public class TableTextBlockToXmlWriter implements Writer<TableBox, String> {
                         regionElement.appendChild(cellElement);
                     }
                 }
-                tableElement.appendChild(regionElement);
             }
+            tableElement.appendChild(regionElement);
             rootElement.appendChild(tableElement);
         }
 
