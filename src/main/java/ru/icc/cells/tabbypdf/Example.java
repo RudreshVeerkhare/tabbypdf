@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Example {
-    public static String TEST_PDF_DIR = "src/test/resources/pdf/";
-    public static String SAVE_PDF_DIR = "src/test/resources/pdf/edit/";
+    public static String TEST_PDF_DIR = "/content/pdf/ ";
+    public static String SAVE_PDF_DIR = "/content/pdf/edit/";
 
     public static void main(String[] args) {
         if (args.length > 2) {
