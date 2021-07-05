@@ -95,7 +95,7 @@ public class App {
                 try {
                     for (int pageNumber = 0; pageNumber < pages.size(); pageNumber++) {
                         Page page = pages.get(pageNumber);
-                        TextChunkProcessorConfiguration configuration = getDetectionConfiguration();
+                        TextChunkProcessorConfiguration configuration = getRecognizingConfiguration();
                         List<TextBlock> textBlocks = new TextChunkProcessor(page, configuration).process();
 
                         // write data to xml
