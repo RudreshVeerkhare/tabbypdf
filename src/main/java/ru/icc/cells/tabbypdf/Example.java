@@ -25,7 +25,7 @@ public class Example {
     public static String SAVE_PDF_DIR = "src/test/resources/pdf/edit/";
 
     public static void main(String[] args) {
-        if (args.length > 2){
+        if (args.length > 2) {
             TEST_PDF_DIR = args[1];
             SAVE_PDF_DIR = args[2];
         }
@@ -37,13 +37,12 @@ public class Example {
                 process(file);
             }
         }
-        //        process(new File("src/test/resources/pdf/us-007.pdf"));
+        // process(new File("src/test/resources/pdf/us-007.pdf"));
     }
 
     private static List<TableBox> process(File file) {
         Debug.println(file.getName());
         Debug.handleFile(file);
-
 
         List<TableBox> tableBoxes = new ArrayList<>();
         List<Table> tables = new ArrayList<>();
@@ -109,10 +108,10 @@ public class Example {
     }
 
     private static void writeTableTextBlocks(List<TableBox> tableBoxes, String fileName) {
-        TableBoxToXmlWriter writer = new TableTextBlockToXmlWriter(fileName);
+        TableTextBlockToXmlWriter writer = new TableTextBlockToXmlWriter(fileName);
         try {
             FileWriter fileWriter = new FileWriter(
-                SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-blk-output.xml");
+                    SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-blk-output.xml");
             fileWriter.write(writer.write(tableBoxes));
             fileWriter.close();
         } catch (IOException e) {
@@ -124,7 +123,7 @@ public class Example {
         TableBoxToXmlWriter writer = new TableBoxToXmlWriter(fileName);
         try {
             FileWriter fileWriter = new FileWriter(
-                SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-reg-output.xml");
+                    SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-reg-output.xml");
             fileWriter.write(writer.write(tableBoxes));
             fileWriter.close();
         } catch (IOException e) {
@@ -146,7 +145,8 @@ public class Example {
         }
         TableToXmlWriter tableToXmlWriter = new TableToXmlWriter(fileName);
         try {
-            FileWriter fileWriter = new FileWriter(SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-str-output.xml");
+            FileWriter fileWriter = new FileWriter(
+                    SAVE_PDF_DIR + "xml/" + fileName.substring(0, fileName.lastIndexOf('.')) + "-str-output.xml");
             fileWriter.write(tableToXmlWriter.write(tables));
             fileWriter.close();
         } catch (IOException e) {
